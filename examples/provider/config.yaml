@@ -3,25 +3,22 @@ kind: Namespace
 metadata:
   name: crossplane-system
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  namespace: crossplane-system
-  name: example-provider-secret
-type: Opaque
-data:
-  credentials: BASE64ENCODED_PROVIDER_CREDS
----
 apiVersion: snowflake.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
   name: example
 spec:
-  snowflakeAccount: test-account
-  token: test
+  snowflakeAccount: volvocars-manufacturinganalytics
+  username: HHARPREE@VOLVOCARS.COM 
   credentials:
     source: Secret
     secretRef:
-      namespace: crossplane-system
-      name: example-provider-secret
-      key: credentials
+      namespace: default
+      name: sw-secret
+      key: pkey
+  fingerPrint:
+    source: Secret
+    secretRef:
+      namespace: default
+      name: sw-secret
+      key: fkey

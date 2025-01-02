@@ -1,0 +1,10 @@
+apiVersion: database.snowflake.crossplane.io/v1alpha1
+kind: Database
+metadata:
+  name: test-db
+  namespace: crossplane-system
+spec:
+  forProvider:
+    name: crossplane_db
+  providerConfigRef:
+    name: example
