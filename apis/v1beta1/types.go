@@ -10,6 +10,7 @@ import (
 	xpv1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
+// AuthMethodType defines the type of authentication method used to connect to Snowflake.
 type AuthMethodType string
 
 const (
