@@ -15,25 +15,46 @@ type AuthMethodType string
 
 const (
 	// AuthMethodUsernamePassword is the authentication method for username and password
-	AuthMethodUsernamePassword AuthMethodType = "UsernamePassword"
+	AuthMethodSnowflake AuthMethodType = "Snowflake"
 
 	// AuthMethodJWT is the authentication method for JWT
 	AuthMethodJWT AuthMethodType = "JWT"
+
+	// AuthMethodPrivateKeyPassphrase uses a private key with a passphrase for authentication.
+	AuthMethodPrivateKeyPassphrase AuthMethodType = "PrivateKeyPassphrase"
 )
+
+// SnowflakeAuth defines the authentication details.
+type SnowflakeAuth struct {
+	// Type specifies the authentication method to use.
+	// +kubebuilder:validation:Required
+	AuthType AuthMethodType `json:"type"`
+
+	// AccountName is your Snowflake account identifier (e.g., abc12345.eu-central-1).
+	// +optional
+	AccountName *string `json:"accountName,omitempty"`
+
+	// OrganizationName is the name of your Snowflake organization if applicable.
+	// +optional
+	OrganizationName *string `json:"organizationName,omitempty"`
+
+	// Role specifies the default role to use.
+	// +optional
+	Role *string `json:"role,omitempty"`
+
+	// Warehouse specifies the default warehouse to use.
+	// +optional
+	Warehouse *string `json:"warehouse,omitempty"`
+}
 
 // A ProviderConfigSpec defines the desired state of a ProviderConfig.
 type ProviderConfigSpec struct {
 	// Credentials required to authenticate to this provider.
 	Credentials ProviderCredentials `json:"credentials"`
 
-	// AuthMethodType required, is the type of authentication method used to connect to Snowflake.
-	AuthMethodType AuthMethodType `json:"authMethodType"`
-
-	// AccountName required to authenticate to this provider.
-	AccountName string `json:"accountName"`
-
-	// OrganizationName required to authenticate to this provider.
-	OrganizationName string `json:"organizationName"`
+	// Auth specifies the authentication method and details for the Snowflake provider.
+	// +kubebuilder:validation:Required
+	Auth SnowflakeAuth `json:"auth"`
 }
 
 // ProviderCredentials required to authenticate.

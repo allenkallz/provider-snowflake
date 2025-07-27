@@ -8,8 +8,9 @@ import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
+	"github.com/allenkallz/provider-snowflake/config/database"
+	"github.com/allenkallz/provider-snowflake/config/fileformat"
 	ujconfig "github.com/crossplane/upjet/pkg/config"
-	// "github.com/allenkallz/provider-snowflake/config/database"
 )
 
 const (
@@ -26,7 +27,7 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("upbound.io"),
+		ujconfig.WithRootGroup("snowflake.upbound.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
@@ -35,7 +36,8 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		// database.Configure,
+		database.Configure,
+		fileformat.Configure,
 	} {
 		configure(pc)
 	}

@@ -9,6 +9,8 @@ import (
 
 	"github.com/crossplane/upjet/pkg/controller"
 
+	database "github.com/allenkallz/provider-snowflake/internal/controller/database/database"
+	format "github.com/allenkallz/provider-snowflake/internal/controller/fileformat/format"
 	providerconfig "github.com/allenkallz/provider-snowflake/internal/controller/providerconfig"
 )
 
@@ -16,6 +18,8 @@ import (
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
+		database.Setup,
+		format.Setup,
 		providerconfig.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {

@@ -51,13 +51,30 @@ spec:
           spec:
             description: A ProviderConfigSpec defines the desired state of a ProviderConfig.
             properties:
-              accountName:
-                description: AccountName required to authenticate to this provider.
-                type: string
-              authMethodType:
-                description: AuthMethodType required, is the type of authentication
-                  method used to connect to Snowflake.
-                type: string
+              auth:
+                description: Auth specifies the authentication method and details
+                  for the Snowflake provider.
+                properties:
+                  accountName:
+                    description: AccountName is your Snowflake account identifier
+                      (e.g., abc12345.eu-central-1).
+                    type: string
+                  organizationName:
+                    description: OrganizationName is the name of your Snowflake organization
+                      if applicable.
+                    type: string
+                  role:
+                    description: Role specifies the default role to use.
+                    type: string
+                  type:
+                    description: Type specifies the authentication method to use.
+                    type: string
+                  warehouse:
+                    description: Warehouse specifies the default warehouse to use.
+                    type: string
+                required:
+                - type
+                type: object
               credentials:
                 description: Credentials required to authenticate to this provider.
                 properties:
@@ -114,14 +131,9 @@ spec:
                 required:
                 - source
                 type: object
-              organizationName:
-                description: OrganizationName required to authenticate to this provider.
-                type: string
             required:
-            - accountName
-            - authMethodType
+            - auth
             - credentials
-            - organizationName
             type: object
           status:
             description: A ProviderConfigStatus reflects the observed state of a ProviderConfig.
