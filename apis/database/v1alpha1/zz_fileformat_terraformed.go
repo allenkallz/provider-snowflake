@@ -14,18 +14,18 @@ import (
 	"github.com/crossplane/upjet/pkg/resource/json"
 )
 
-// GetTerraformResourceType returns Terraform resource type for this Format
-func (mg *Format) GetTerraformResourceType() string {
+// GetTerraformResourceType returns Terraform resource type for this FileFormat
+func (mg *FileFormat) GetTerraformResourceType() string {
 	return "snowflake_file_format"
 }
 
-// GetConnectionDetailsMapping for this Format
-func (tr *Format) GetConnectionDetailsMapping() map[string]string {
+// GetConnectionDetailsMapping for this FileFormat
+func (tr *FileFormat) GetConnectionDetailsMapping() map[string]string {
 	return nil
 }
 
-// GetObservation of this Format
-func (tr *Format) GetObservation() (map[string]any, error) {
+// GetObservation of this FileFormat
+func (tr *FileFormat) GetObservation() (map[string]any, error) {
 	o, err := json.TFParser.Marshal(tr.Status.AtProvider)
 	if err != nil {
 		return nil, err
@@ -34,8 +34,8 @@ func (tr *Format) GetObservation() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(o, &base)
 }
 
-// SetObservation for this Format
-func (tr *Format) SetObservation(obs map[string]any) error {
+// SetObservation for this FileFormat
+func (tr *FileFormat) SetObservation(obs map[string]any) error {
 	p, err := json.TFParser.Marshal(obs)
 	if err != nil {
 		return err
@@ -43,16 +43,16 @@ func (tr *Format) SetObservation(obs map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Status.AtProvider)
 }
 
-// GetID returns ID of underlying Terraform resource of this Format
-func (tr *Format) GetID() string {
+// GetID returns ID of underlying Terraform resource of this FileFormat
+func (tr *FileFormat) GetID() string {
 	if tr.Status.AtProvider.ID == nil {
 		return ""
 	}
 	return *tr.Status.AtProvider.ID
 }
 
-// GetParameters of this Format
-func (tr *Format) GetParameters() (map[string]any, error) {
+// GetParameters of this FileFormat
+func (tr *FileFormat) GetParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.ForProvider)
 	if err != nil {
 		return nil, err
@@ -61,8 +61,8 @@ func (tr *Format) GetParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// SetParameters for this Format
-func (tr *Format) SetParameters(params map[string]any) error {
+// SetParameters for this FileFormat
+func (tr *FileFormat) SetParameters(params map[string]any) error {
 	p, err := json.TFParser.Marshal(params)
 	if err != nil {
 		return err
@@ -70,8 +70,8 @@ func (tr *Format) SetParameters(params map[string]any) error {
 	return json.TFParser.Unmarshal(p, &tr.Spec.ForProvider)
 }
 
-// GetInitParameters of this Format
-func (tr *Format) GetInitParameters() (map[string]any, error) {
+// GetInitParameters of this FileFormat
+func (tr *FileFormat) GetInitParameters() (map[string]any, error) {
 	p, err := json.TFParser.Marshal(tr.Spec.InitProvider)
 	if err != nil {
 		return nil, err
@@ -80,8 +80,8 @@ func (tr *Format) GetInitParameters() (map[string]any, error) {
 	return base, json.TFParser.Unmarshal(p, &base)
 }
 
-// GetInitParameters of this Format
-func (tr *Format) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
+// GetInitParameters of this FileFormat
+func (tr *FileFormat) GetMergedParameters(shouldMergeInitProvider bool) (map[string]any, error) {
 	params, err := tr.GetParameters()
 	if err != nil {
 		return nil, errors.Wrapf(err, "cannot get parameters for resource '%q'", tr.GetName())
@@ -110,10 +110,10 @@ func (tr *Format) GetMergedParameters(shouldMergeInitProvider bool) (map[string]
 	return params, nil
 }
 
-// LateInitialize this Format using its observed tfState.
+// LateInitialize this FileFormat using its observed tfState.
 // returns True if there are any spec changes for the resource.
-func (tr *Format) LateInitialize(attrs []byte) (bool, error) {
-	params := &FormatParameters{}
+func (tr *FileFormat) LateInitialize(attrs []byte) (bool, error) {
+	params := &FileFormatParameters{}
 	if err := json.TFParser.Unmarshal(attrs, params); err != nil {
 		return false, errors.Wrap(err, "failed to unmarshal Terraform state parameters for late-initialization")
 	}
@@ -124,6 +124,6 @@ func (tr *Format) LateInitialize(attrs []byte) (bool, error) {
 }
 
 // GetTerraformSchemaVersion returns the associated Terraform schema version
-func (tr *Format) GetTerraformSchemaVersion() int {
+func (tr *FileFormat) GetTerraformSchemaVersion() int {
 	return 0
 }

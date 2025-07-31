@@ -1,8 +1,8 @@
-apiVersion: fileformat.snowflake.upbound.io/v1alpha1
-kind: Format
+apiVersion: database.snowflake.com/v1alpha1
+kind: FileFormat
 metadata:
   annotations:
-    meta.upbound.io/example-id: fileformat/v1alpha1/format
+    meta.upbound.io/example-id: database/v1alpha1/fileformat
   labels:
     testing.upbound.io/example-name: example_file_format
   name: example-file-format

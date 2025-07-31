@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: formats.fileformat.snowflake.upbound.io
+  name: fileformats.database.snowflake.com
 spec:
-  group: fileformat.snowflake.upbound.io
+  group: database.snowflake.com
   names:
     categories:
     - crossplane
     - managed
     - snowflake
-    kind: Format
-    listKind: FormatList
-    plural: formats
-    singular: format
+    kind: FileFormat
+    listKind: FileFormatList
+    plural: fileformats
+    singular: fileformat
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Format is the Schema for the Formats API.
+        description: FileFormat is the Schema for the FileFormats API.
         properties:
           apiVersion:
             description: |-
@@ -54,7 +54,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: FormatSpec defines the desired state of Format
+            description: FileFormatSpec defines the desired state of FileFormat
             properties:
               deletionPolicy:
                 default: Delete
@@ -636,7 +636,7 @@ spec:
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.schema)
                 || (has(self.initProvider) && has(self.initProvider.schema))'
           status:
-            description: FormatStatus defines the observed state of Format.
+            description: FileFormatStatus defines the observed state of FileFormat.
             properties:
               atProvider:
                 properties:

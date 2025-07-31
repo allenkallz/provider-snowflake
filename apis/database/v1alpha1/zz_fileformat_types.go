@@ -13,7 +13,7 @@ import (
 	v1 "github.com/crossplane/crossplane-runtime/apis/common/v1"
 )
 
-type FormatInitParameters struct {
+type FileFormatInitParameters struct {
 
 	// (Boolean) Boolean that specifies to allow duplicate object field names (only the last one will be preserved).
 	// Boolean that specifies to allow duplicate object field names (only the last one will be preserved).
@@ -160,7 +160,7 @@ type FormatInitParameters struct {
 	TrimSpace *bool `json:"trimSpace,omitempty" tf:"trim_space,omitempty"`
 }
 
-type FormatObservation struct {
+type FileFormatObservation struct {
 
 	// (Boolean) Boolean that specifies to allow duplicate object field names (only the last one will be preserved).
 	// Boolean that specifies to allow duplicate object field names (only the last one will be preserved).
@@ -314,7 +314,7 @@ type FormatObservation struct {
 	TrimSpace *bool `json:"trimSpace,omitempty" tf:"trim_space,omitempty"`
 }
 
-type FormatParameters struct {
+type FileFormatParameters struct {
 
 	// (Boolean) Boolean that specifies to allow duplicate object field names (only the last one will be preserved).
 	// Boolean that specifies to allow duplicate object field names (only the last one will be preserved).
@@ -497,10 +497,10 @@ type FormatParameters struct {
 	TrimSpace *bool `json:"trimSpace,omitempty" tf:"trim_space,omitempty"`
 }
 
-// FormatSpec defines the desired state of Format
-type FormatSpec struct {
+// FileFormatSpec defines the desired state of FileFormat
+type FileFormatSpec struct {
 	v1.ResourceSpec `json:",inline"`
-	ForProvider     FormatParameters `json:"forProvider"`
+	ForProvider     FileFormatParameters `json:"forProvider"`
 	// THIS IS A BETA FIELD. It will be honored
 	// unless the Management Policies feature flag is disabled.
 	// InitProvider holds the same fields as ForProvider, with the exception
@@ -511,53 +511,53 @@ type FormatSpec struct {
 	// required on creation, but we do not desire to update them after creation,
 	// for example because of an external controller is managing them, like an
 	// autoscaler.
-	InitProvider FormatInitParameters `json:"initProvider,omitempty"`
+	InitProvider FileFormatInitParameters `json:"initProvider,omitempty"`
 }
 
-// FormatStatus defines the observed state of Format.
-type FormatStatus struct {
+// FileFormatStatus defines the observed state of FileFormat.
+type FileFormatStatus struct {
 	v1.ResourceStatus `json:",inline"`
-	AtProvider        FormatObservation `json:"atProvider,omitempty"`
+	AtProvider        FileFormatObservation `json:"atProvider,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// Format is the Schema for the Formats API.
+// FileFormat is the Schema for the FileFormats API.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
 // +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
 // +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,snowflake}
-type Format struct {
+type FileFormat struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.database) || (has(self.initProvider) && has(self.initProvider.database))",message="spec.forProvider.database is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.formatType) || (has(self.initProvider) && has(self.initProvider.formatType))",message="spec.forProvider.formatType is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.name) || (has(self.initProvider) && has(self.initProvider.name))",message="spec.forProvider.name is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.schema) || (has(self.initProvider) && has(self.initProvider.schema))",message="spec.forProvider.schema is a required parameter"
-	Spec   FormatSpec   `json:"spec"`
-	Status FormatStatus `json:"status,omitempty"`
+	Spec   FileFormatSpec   `json:"spec"`
+	Status FileFormatStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
 
-// FormatList contains a list of Formats
-type FormatList struct {
+// FileFormatList contains a list of FileFormats
+type FileFormatList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Format `json:"items"`
+	Items           []FileFormat `json:"items"`
 }
 
 // Repository type metadata.
 var (
-	Format_Kind             = "Format"
-	Format_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: Format_Kind}.String()
-	Format_KindAPIVersion   = Format_Kind + "." + CRDGroupVersion.String()
-	Format_GroupVersionKind = CRDGroupVersion.WithKind(Format_Kind)
+	FileFormat_Kind             = "FileFormat"
+	FileFormat_GroupKind        = schema.GroupKind{Group: CRDGroup, Kind: FileFormat_Kind}.String()
+	FileFormat_KindAPIVersion   = FileFormat_Kind + "." + CRDGroupVersion.String()
+	FileFormat_GroupVersionKind = CRDGroupVersion.WithKind(FileFormat_Kind)
 )
 
 func init() {
-	SchemeBuilder.Register(&Format{}, &FormatList{})
+	SchemeBuilder.Register(&FileFormat{}, &FileFormatList{})
 }

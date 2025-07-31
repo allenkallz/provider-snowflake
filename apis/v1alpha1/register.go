@@ -13,7 +13,7 @@ import (
 
 // Package type metadata.
 const (
-	Group   = "snowflake.upbound.io"
+	Group   = "snowflake.com"
 	Version = "v1alpha1"
 )
 

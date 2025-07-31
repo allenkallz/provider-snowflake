@@ -4,9 +4,9 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: databases.database.snowflake.upbound.io
+  name: databases.database.snowflake.com
 spec:
-  group: database.snowflake.upbound.io
+  group: database.snowflake.com
   names:
     categories:
     - crossplane

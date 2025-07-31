@@ -27,12 +27,18 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("snowflake.upbound.io"),
+		ujconfig.WithShortName("snowflake"),
+		ujconfig.WithRootGroup("snowflake.com"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
 			ExternalNameConfigurations(),
 		))
+
+	// Override the default group for resources
+	for _, r := range pc.Resources {
+		GroupOverrides(r)
+	}
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
