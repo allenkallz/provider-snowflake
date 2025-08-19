@@ -13,7 +13,7 @@ include ../../../build/makelib/imagelight.mk
 
 img.build:
 	@$(INFO) docker build $(IMAGE)
-	@$(MAKE) BUILD_ARGS="--load" img.build.shared
+	@$(MAKE) BUILD_ARGS="--push" img.build.shared
 	@$(OK) docker build $(IMAGE)
 
 img.publish:
@@ -25,6 +25,17 @@ img.build.shared:
 	@cp Dockerfile $(IMAGE_TEMP_DIR) || $(FAIL)
 	@cp terraformrc.hcl $(IMAGE_TEMP_DIR) || $(FAIL)
 	@cp -r $(OUTPUT_DIR)/bin/ $(IMAGE_TEMP_DIR)/bin || $(FAIL)
+	@echo "IMAGE_PLATFORMS $(IMAGE_PLATFORMS)"
+	@echo "BUILD_ARGS $(BUILD_ARGS)"
+	@echo "TERRAFORM_VERSION $(TERRAFORM_VERSION)"
+	@echo "TERRAFORM_PROVIDER_SOURCE $(TERRAFORM_PROVIDER_SOURCE)"
+	@echo "TERRAFORM_PROVIDER_VERSION $(TERRAFORM_PROVIDER_VERSION)"
+	@echo "TERRAFORM_PROVIDER_DOWNLOAD_NAME $(TERRAFORM_PROVIDER_DOWNLOAD_NAME)"
+	@echo "TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX $(TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX)"
+	@echo "TERRAFORM_NATIVE_PROVIDER_BINARY $(TERRAFORM_NATIVE_PROVIDER_BINARY)"
+	@echo "IMAGE $(IMAGE)"
+	@echo "IMAGE_TEMP_DIR $(IMAGE_TEMP_DIR)"
+	@pwd
 	@docker buildx build $(BUILD_ARGS) \
 		--platform $(IMAGE_PLATFORMS) \
 		--build-arg TERRAFORM_VERSION=$(TERRAFORM_VERSION) \

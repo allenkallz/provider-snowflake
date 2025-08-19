@@ -64,6 +64,7 @@ UPTEST_VERSION = v0.5.0
 # Setup Images
 
 REGISTRY_ORGS ?= ghcr.io/allenkallz
+BUILD_REGISTRY ?= ghcr.io/allenkallz
 IMAGES = $(PROJECT_NAME)
 -include build/makelib/imagelight.mk
 
