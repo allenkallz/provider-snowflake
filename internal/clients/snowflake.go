@@ -94,10 +94,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		auth := providerConfig.Spec.Auth
 
 		if auth.AccountName == nil || *auth.AccountName == "" {
-			return providerSetup, errors.New("Snowflake 'accountName' is required in ProviderConfig spec.")
+			return providerSetup, errors.New("snowflake 'accountName' is required in ProviderConfig spec.")
 		}
 		if auth.OrganizationName == nil || *auth.OrganizationName == "" {
-			return providerSetup, errors.New("Snowflake 'organizationName' is required in ProviderConfig spec.")
+			return providerSetup, errors.New("snowflake 'organizationName' is required in ProviderConfig spec.")
 		}
 
 		// set provider configuration
@@ -129,10 +129,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			username := snowflakeCreds[SecretKeyUsername]
 			password := snowflakeCreds[SecretKeyPassword]
 			if len(username) == 0 {
-				return providerSetup, errors.New("Snowflake 'username' is required for Snowflake authentication.")
+				return providerSetup, errors.New("snowflake 'username' is required for Snowflake authentication.")
 			}
 			if len(password) == 0 {
-				return providerSetup, errors.New("Snowflake 'password' is required for Snowflake authentication.")
+				return providerSetup, errors.New("snowflake 'password' is required for Snowflake authentication.")
 			}
 
 			providerSetup.Configuration[keyUser] = username
@@ -145,12 +145,13 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			// This method requires username and privateKey
 			username := snowflakeCreds[SecretKeyUsername]
 			privatekey := snowflakeCreds[SecretKeyPrivateKey]
+			role := snowflakeCreds[keyRole]
 
 			if len(username) == 0 {
-				return providerSetup, errors.New("Snowflake 'username' is required for JWT authentication.")
+				return providerSetup, errors.New("snowflake 'username' is required for JWT authentication.")
 			}
 			if len(privatekey) == 0 {
-				return providerSetup, errors.New("Snowflake 'privateKey' is required for JWT authentication.")
+				return providerSetup, errors.New("snowflake 'privateKey' is required for JWT authentication.")
 			}
 
 			providerSetup.Configuration[keyUser] = username
@@ -159,6 +160,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			providerSetup.Configuration[keyPrivateKey] = privatekey
 
 			providerSetup.Configuration[keyAuthenticator] = JwtAuthenticator
+			providerSetup.Configuration[keyRole] = role
 
 		case v1beta1.AuthMethodPrivateKeyPassphrase:
 			// PrivateKeyPassphrase authentication
@@ -166,20 +168,22 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			username := snowflakeCreds[SecretKeyUsername]
 			privatekey := snowflakeCreds[SecretKeyPrivateKey]
 			privatekeyPassphrase := snowflakeCreds[SecretKeyPrivateKeyPassphrase]
+			role := snowflakeCreds[keyRole]
 
 			if len(username) == 0 {
-				return providerSetup, errors.New("Snowflake 'username' is required for PrivateKeyPassphrase authentication.")
+				return providerSetup, errors.New("snowflake 'username' is required for PrivateKeyPassphrase authentication.")
 			}
 			if len(privatekey) == 0 {
-				return providerSetup, errors.New("Snowflake 'privateKey' is required for PrivateKeyPassphrase authentication.")
+				return providerSetup, errors.New("snowflake 'privateKey' is required for PrivateKeyPassphrase authentication.")
 			}
 			if len(privatekeyPassphrase) == 0 {
-				return providerSetup, errors.New("Snowflake 'privateKeyPassphrase' is required for PrivateKeyPassphrase authentication.")
+				return providerSetup, errors.New("snowflake 'privateKeyPassphrase' is required for PrivateKeyPassphrase authentication.")
 			}
 
 			providerSetup.Configuration[keyUser] = username
 			providerSetup.Configuration[keyPrivateKey] = privatekey
 			providerSetup.Configuration[keyPrivateKeyPassphrase] = privatekeyPassphrase
+			providerSetup.Configuration[keyRole] = role
 
 			providerSetup.Configuration[keyAuthenticator] = JwtAuthenticator
 
