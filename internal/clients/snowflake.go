@@ -59,8 +59,8 @@ const (
 	// These match what you'd define in your Kubernetes Secret data.
 	SecretKeyUsername             = "username"
 	SecretKeyPassword             = "password"
-	SecretKeyPrivateKey           = "privateKey"
-	SecretKeyPrivateKeyPassphrase = "privateKeyPassphrase"
+	SecretKeyPrivateKey           = "private_key"
+	SecretKeyPrivateKeyPassphrase = "private_key_passphrase"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -91,21 +91,23 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			Configuration: map[string]any{},
 		}
 
-		Auth := providerConfig.Spec.Auth
+		auth := providerConfig.Spec.Auth
 
-		if Auth.AccountName == nil || *Auth.AccountName == "" {
+		if auth.AccountName == nil || *auth.AccountName == "" {
 			return providerSetup, errors.New("Snowflake 'accountName' is required in ProviderConfig spec.")
 		}
-		if Auth.OrganizationName == nil || *Auth.OrganizationName == "" {
+		if auth.OrganizationName == nil || *auth.OrganizationName == "" {
 			return providerSetup, errors.New("Snowflake 'organizationName' is required in ProviderConfig spec.")
 		}
 
 		// set provider configuration
-		providerSetup.Configuration[keyOrganizationName] = *Auth.OrganizationName
+		providerSetup.Configuration[keyOrganizationName] = *auth.OrganizationName
 		// Use the account name as is, but replace '.' with '-' to avoid issues with Terraform
 		//  strings.ToUpper(strings.ReplaceAll(providerConfig.Spec.AccountName, ".", "-")),
 		// TODO: check if this is correct
-		providerSetup.Configuration[keyAccountName] = strings.ToUpper(strings.ReplaceAll(*Auth.AccountName, ".", "-"))
+
+		providerSetup.Configuration[keyAccountName] = strings.ToUpper(strings.ReplaceAll(*auth.AccountName, ".", "-"))
+		providerSetup.Configuration[keyWarehouse] = *auth.Warehouse
 
 		data, err := resource.CommonCredentialExtractor(ctx, providerConfig.Spec.Credentials.Source, client, providerConfig.Spec.Credentials.CommonCredentialSelectors)
 		if err != nil {
@@ -119,7 +121,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			return providerSetup, errors.Wrap(err, errUnmarshalCredentials)
 		}
 
-		switch Auth.AuthType {
+		switch auth.AuthType {
 
 		case v1beta1.AuthMethodSnowflake:
 			// Snowflake authentication with username and password
@@ -182,7 +184,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			providerSetup.Configuration[keyAuthenticator] = JwtAuthenticator
 
 		default:
-			return providerSetup, errors.New("unsupported authentication method: " + string(Auth.AuthType))
+			return providerSetup, errors.New("unsupported authentication method: " + string(auth.AuthType))
 		}
 
 		if err != nil {

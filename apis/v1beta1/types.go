@@ -31,12 +31,12 @@ type SnowflakeAuth struct {
 	AuthType AuthMethodType `json:"type"`
 
 	// AccountName is your Snowflake account identifier (e.g., abc12345.eu-central-1).
-	// +optional
-	AccountName *string `json:"accountName,omitempty"`
+	// +kubebuilder:validation:Required
+	AccountName *string `json:"accountName"`
 
 	// OrganizationName is the name of your Snowflake organization if applicable.
-	// +optional
-	OrganizationName *string `json:"organizationName,omitempty"`
+	// +kubebuilder:validation:Required
+	OrganizationName *string `json:"organizationName"`
 
 	// Role specifies the default role to use.
 	// +optional
