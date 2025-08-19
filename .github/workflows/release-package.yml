@@ -1,18 +1,18 @@
 name: release provider
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  #     - release-*
-  pull_request: {}
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version string to use while publishing the package (e.g. v1.0.0-alpha.1)"
+        required: true
 
 env:
   # Common versions
   GO_VERSION: '1.23'
   GOLANGCI_VERSION: 'v1.54.0'
   DOCKER_BUILDX_VERSION: 'v0.8.2'
+  VERSION: ${{ github.event.inputs.version }}
 
 
 jobs:
