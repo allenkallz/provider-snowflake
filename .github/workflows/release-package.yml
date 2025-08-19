@@ -200,6 +200,9 @@ jobs:
       - check-diff
       - unit-tests
     if: needs.detect-noop.outputs.noop != 'true'
+    permissions:
+      contents: write
+      packages: write
 
     steps:
       - name: Setup QEMU

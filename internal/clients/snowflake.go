@@ -38,8 +38,8 @@ const (
 	keyPassword = "password"
 	// Role is the key for Snowflake role
 	keyRole = "role"
-	// Host is the key for Snowflake host
-	keyHost = "host"
+	// // Host is the key for Snowflake host
+	// keyHost = "host"
 	// Warehouse is the key for Snowflake warehouse
 	keyWarehouse = "warehouse"
 	// Authenticator is the key for Snowflake authenticator
@@ -94,10 +94,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		auth := providerConfig.Spec.Auth
 
 		if auth.AccountName == nil || *auth.AccountName == "" {
-			return providerSetup, errors.New("snowflake 'accountName' is required in ProviderConfig spec.")
+			return providerSetup, errors.New("snowflake 'accountName' is required in provider config spec.")
 		}
 		if auth.OrganizationName == nil || *auth.OrganizationName == "" {
-			return providerSetup, errors.New("snowflake 'organizationName' is required in ProviderConfig spec.")
+			return providerSetup, errors.New("snowflake 'organizationName' is required in provider config spec.")
 		}
 
 		// set provider configuration
@@ -129,10 +129,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			username := snowflakeCreds[SecretKeyUsername]
 			password := snowflakeCreds[SecretKeyPassword]
 			if len(username) == 0 {
-				return providerSetup, errors.New("snowflake 'username' is required for Snowflake authentication.")
+				return providerSetup, errors.New("snowflake 'username' is required for snowflake authentication.")
 			}
 			if len(password) == 0 {
-				return providerSetup, errors.New("snowflake 'password' is required for Snowflake authentication.")
+				return providerSetup, errors.New("snowflake 'password' is required for snowflake authentication.")
 			}
 
 			providerSetup.Configuration[keyUser] = username
@@ -171,13 +171,13 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			role := snowflakeCreds[keyRole]
 
 			if len(username) == 0 {
-				return providerSetup, errors.New("snowflake 'username' is required for PrivateKeyPassphrase authentication.")
+				return providerSetup, errors.New("snowflake 'username' is required for private key passphrase authentication.")
 			}
 			if len(privatekey) == 0 {
-				return providerSetup, errors.New("snowflake 'privateKey' is required for PrivateKeyPassphrase authentication.")
+				return providerSetup, errors.New("snowflake 'privateKey' is required for private key passphrase authentication.")
 			}
 			if len(privatekeyPassphrase) == 0 {
-				return providerSetup, errors.New("snowflake 'privateKeyPassphrase' is required for PrivateKeyPassphrase authentication.")
+				return providerSetup, errors.New("snowflake 'privateKeyPassphrase' is required for private key passphrase authentication.")
 			}
 
 			providerSetup.Configuration[keyUser] = username
