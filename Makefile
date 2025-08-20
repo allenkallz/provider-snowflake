@@ -58,7 +58,6 @@ KIND_VERSION = v0.15.0
 UP_VERSION = v0.39.0
 UP_CHANNEL = stable
 UPTEST_VERSION = v0.5.0
-CROSSPLANE_CLI_VERSION = v1.20.0
 -include build/makelib/k8s_tools.mk
 
 # ====================================================================================
@@ -99,7 +98,7 @@ xpkg.build.upjet-provider-template: do.build.images
 
 # NOTE(hasheddan): we ensure up is installed prior to running platform-specific
 # build steps in parallel to avoid encountering an installation race condition.
-build.init: $(UP) check-terraform-version
+build.init: $(UP) $(CROSSPLANE_CLI) check-terraform-version 
 
 # ====================================================================================
 # Setup Terraform for fetching provider schema
