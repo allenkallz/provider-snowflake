@@ -32,19 +32,11 @@ type SnowflakeAuth struct {
 
 	// AccountName is your Snowflake account identifier (e.g., abc12345.eu-central-1).
 	// +kubebuilder:validation:Required
-	AccountName *string `json:"accountName"`
+	AccountName string `json:"accountName"`
 
 	// OrganizationName is the name of your Snowflake organization if applicable.
 	// +kubebuilder:validation:Required
-	OrganizationName *string `json:"organizationName"`
-
-	// Role specifies the default role to use.
-	// +optional
-	Role *string `json:"role,omitempty"`
-
-	// Warehouse specifies the default warehouse to use.
-	// +optional
-	Warehouse *string `json:"warehouse,omitempty"`
+	OrganizationName string `json:"organizationName"`
 }
 
 // A ProviderConfigSpec defines the desired state of a ProviderConfig.

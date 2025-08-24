@@ -1,0 +1,27 @@
+apiVersion: database.snowflake.com/v1alpha1
+kind: DatabaseRole
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/databaserole
+  labels:
+    testing.upbound.io/example-name: test_database_role
+  name: test-database-role
+spec:
+  forProvider:
+    comment: my database role
+    database: ${snowflake_database.test_database.fully_qualified_name}
+    name: database_role_name
+
+---
+
+apiVersion: database.snowflake.com/v1alpha1
+kind: Database
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/databaserole
+  labels:
+    testing.upbound.io/example-name: test_database
+  name: test-database
+spec:
+  forProvider:
+    name: database_name

@@ -61,6 +61,8 @@ const (
 	SecretKeyPassword             = "password"
 	SecretKeyPrivateKey           = "private_key"
 	SecretKeyPrivateKeyPassphrase = "private_key_passphrase"
+	SecretKeyRole                 = "role"
+	SecretKeyWarehouse            = "warehouse"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -93,21 +95,20 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		auth := providerConfig.Spec.Auth
 
-		if auth.AccountName == nil || *auth.AccountName == "" {
+		if auth.AccountName == "" {
 			return providerSetup, errors.New("snowflake 'accountName' is required in provider config spec.")
 		}
-		if auth.OrganizationName == nil || *auth.OrganizationName == "" {
+		if auth.OrganizationName == "" {
 			return providerSetup, errors.New("snowflake 'organizationName' is required in provider config spec.")
 		}
 
 		// set provider configuration
-		providerSetup.Configuration[keyOrganizationName] = *auth.OrganizationName
+		providerSetup.Configuration[keyOrganizationName] = auth.OrganizationName
 		// Use the account name as is, but replace '.' with '-' to avoid issues with Terraform
 		//  strings.ToUpper(strings.ReplaceAll(providerConfig.Spec.AccountName, ".", "-")),
 		// TODO: check if this is correct
 
-		providerSetup.Configuration[keyAccountName] = strings.ToUpper(strings.ReplaceAll(*auth.AccountName, ".", "-"))
-		providerSetup.Configuration[keyWarehouse] = *auth.Warehouse
+		providerSetup.Configuration[keyAccountName] = strings.ToUpper(strings.ReplaceAll(auth.AccountName, ".", "-"))
 
 		data, err := resource.CommonCredentialExtractor(ctx, providerConfig.Spec.Credentials.Source, client, providerConfig.Spec.Credentials.CommonCredentialSelectors)
 		if err != nil {
@@ -120,6 +121,10 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if err := json.Unmarshal(data, &snowflakeCreds); err != nil {
 			return providerSetup, errors.Wrap(err, errUnmarshalCredentials)
 		}
+
+		// common key that will always required in secret
+
+		providerSetup.Configuration[keyWarehouse] = snowflakeCreds[SecretKeyWarehouse]
 
 		switch auth.AuthType {
 
@@ -142,6 +147,9 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 
 		case v1beta1.AuthMethodJWT:
 			// JWT authentication
+
+			providerSetup.Configuration[keyAuthenticator] = JwtAuthenticator
+
 			// This method requires username and privateKey
 			username := snowflakeCreds[SecretKeyUsername]
 			privatekey := snowflakeCreds[SecretKeyPrivateKey]
@@ -159,7 +167,6 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			// export SNOWFLAKE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----..."
 			providerSetup.Configuration[keyPrivateKey] = privatekey
 
-			providerSetup.Configuration[keyAuthenticator] = JwtAuthenticator
 			providerSetup.Configuration[keyRole] = role
 
 		case v1beta1.AuthMethodPrivateKeyPassphrase:
@@ -168,7 +175,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			username := snowflakeCreds[SecretKeyUsername]
 			privatekey := snowflakeCreds[SecretKeyPrivateKey]
 			privatekeyPassphrase := snowflakeCreds[SecretKeyPrivateKeyPassphrase]
-			role := snowflakeCreds[keyRole]
+			role := snowflakeCreds[SecretKeyRole]
 
 			if len(username) == 0 {
 				return providerSetup, errors.New("snowflake 'username' is required for private key passphrase authentication.")
@@ -194,7 +201,7 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		if err != nil {
 			return terraform.Setup{}, errors.Wrap(err, "failed to prepare terraform.Setup")
 		}
-
+		// add logger for provider setup to print all details
 		return providerSetup, nil
 
 	}

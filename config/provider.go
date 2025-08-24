@@ -9,6 +9,7 @@ import (
 	_ "embed"
 
 	"github.com/allenkallz/provider-snowflake/config/database"
+	"github.com/allenkallz/provider-snowflake/config/databaserole"
 	"github.com/allenkallz/provider-snowflake/config/fileformat"
 	ujconfig "github.com/crossplane/upjet/pkg/config"
 )
@@ -44,6 +45,7 @@ func GetProvider() *ujconfig.Provider {
 		// add custom config functions
 		database.Configure,
 		fileformat.Configure,
+		databaserole.Configure,
 	} {
 		configure(pc)
 	}

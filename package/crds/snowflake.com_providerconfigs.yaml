@@ -63,14 +63,8 @@ spec:
                     description: OrganizationName is the name of your Snowflake organization
                       if applicable.
                     type: string
-                  role:
-                    description: Role specifies the default role to use.
-                    type: string
                   type:
                     description: Type specifies the authentication method to use.
-                    type: string
-                  warehouse:
-                    description: Warehouse specifies the default warehouse to use.
                     type: string
                 required:
                 - accountName

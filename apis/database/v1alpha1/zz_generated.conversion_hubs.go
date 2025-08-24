@@ -10,4 +10,7 @@ package v1alpha1
 func (tr *Database) Hub() {}
 
 // Hub marks this type as a conversion hub.
+func (tr *DatabaseRole) Hub() {}
+
+// Hub marks this type as a conversion hub.
 func (tr *FileFormat) Hub() {}
