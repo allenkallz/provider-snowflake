@@ -196,7 +196,6 @@ jobs:
     runs-on: ubuntu-24.04
     needs:
       - detect-noop
-      - report-breaking-changes
       - check-diff
       - unit-tests
     if: needs.detect-noop.outputs.noop != 'true'
