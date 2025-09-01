@@ -269,8 +269,8 @@ jobs:
       - name: setup crossplane cli
         run: |
           curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/main/install.sh" | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
+          echo "$PWD"
+          export PATH="$PATH:."
 
       - name: Push xpkg to GitHub Packages
         run: |
