@@ -275,7 +275,7 @@ jobs:
           archs=(linux_amd64 linux_arm64)
           for arch in "${archs[@]}"; do
               architecture="${arch##*_}"
-            crossplane xpkg push ghcr.io/${{ github.repository_owner }}/provider-snowflake-${architecture}:${{ env.VERSION }} -f _output/xpkg/${arch}/provider-snowflake-${env.VERSION}.xpkg
+            crossplane xpkg push ghcr.io/${{ github.repository_owner }}/provider-snowflake-${architecture}:${{ env.VERSION }} -f _output/xpkg/${arch}/provider-snowflake-${VERSION}.xpkg
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
