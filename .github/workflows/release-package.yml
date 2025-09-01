@@ -269,13 +269,15 @@ jobs:
       - name: setup crossplane cli
         run: |
           curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/main/install.sh" | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
 
       - name: Push xpkg to GitHub Packages
         run: |
           archs=(linux_amd64 linux_arm64)
           for arch in "${archs[@]}"; do
               architecture="${arch##*_}"
-            crossplane xpkg push ghcr.io/${{ github.repository_owner }}/provider-snowflake-${architecture}:${{ env.VERSION }} -f _output/xpkg/${arch}/provider-snowflake-${VERSION}.xpkg
+              $HOME/.local/bin/crossplane xpkg push ghcr.io/${{ github.repository_owner }}/provider-snowflake-${architecture}:${{ env.VERSION }} -f _output/xpkg/${arch}/provider-snowflake-${VERSION}.xpkg
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
