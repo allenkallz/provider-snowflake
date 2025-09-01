@@ -34,3 +34,21 @@ func (l *FileFormatList) GetItems() []resource.Managed {
 	}
 	return items
 }
+
+// GetItems of this PipeList.
+func (l *PipeList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this StageList.
+func (l *StageList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}

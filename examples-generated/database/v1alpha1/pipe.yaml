@@ -1,0 +1,17 @@
+apiVersion: database.snowflake.com/v1alpha1
+kind: Pipe
+metadata:
+  annotations:
+    meta.upbound.io/example-id: database/v1alpha1/pipe
+  labels:
+    testing.upbound.io/example-name: pipe
+  name: pipe
+spec:
+  forProvider:
+    autoIngest: false
+    awsSnsTopicArn: '...'
+    comment: A pipe.
+    copyStatement: copy into mytable from @mystage
+    database: db
+    name: pipe
+    schema: schema

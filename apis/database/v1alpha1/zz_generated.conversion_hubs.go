@@ -14,3 +14,9 @@ func (tr *DatabaseRole) Hub() {}
 
 // Hub marks this type as a conversion hub.
 func (tr *FileFormat) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Pipe) Hub() {}
+
+// Hub marks this type as a conversion hub.
+func (tr *Stage) Hub() {}

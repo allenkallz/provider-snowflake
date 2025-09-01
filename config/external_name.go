@@ -13,6 +13,11 @@ var ExternalNameConfigs = map[string]config.ExternalName{
 	"snowflake_database":      config.IdentifierFromProvider,
 	"snowflake_file_format":   config.IdentifierFromProvider,
 	"snowflake_database_role": config.IdentifierFromProvider,
+	"snowflake_stage":         config.IdentifierFromProvider,
+	"snowflake_pipe":          config.IdentifierFromProvider,
+
+	"snowflake_account":      config.IdentifierFromProvider,
+	"snowflake_account_role": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
