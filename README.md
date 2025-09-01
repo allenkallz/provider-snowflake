@@ -1,16 +1,14 @@
-# Provider Template
+# provider-snowflake
+A Crossplane provider built with Upjet for managing Snowflake resources.
 
-`upjet-provider-template` is a [Crossplane](https://crossplane.io/) provider that
-is built using [Upjet](https://github.com/crossplane/upjet) code
-generation tools and exposes XRM-conformant managed resources for the
-Template API.
+---
 
-## Getting Started
+## **Getting Started**
 
-Install the provider by using the following command after changing the image tag
-to the [latest release](https://marketplace.upbound.io/providers/upbound/upjet-provider-template):
-```
-crossplane xpkg install provider xpkg.crossplane.io/upbound/upjet-provider-template:v0.1.0
+You can install this provider using the `crossplane` CLI. Just be sure to replace the image tag with the **latest release**:
+
+```bash
+crossplane xpkg install provider ghcr.io/allenkallz/provider-snowflake:v0.1.0
 ```
 
 Alternatively, you can use declarative installation:
@@ -19,15 +17,14 @@ cat <<EOF | kubectl apply -f -
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
-  name: upjet-provider-template
+  name: provider-snowflake
 spec:
-  package: xpkg.crossplane.io/upbound/upjet-provider-template:v0.1.0
-EOF
+  package: ghcr.io/allenkallz/provider-snowflake:v0.1.0
 ```
 
 Notice that in this example Provider resource is referencing ControllerConfig with debug enabled.
 
-You can see the API reference [here](https://doc.crds.dev/github.com/upbound/upjet-provider-template).
+You can see the API reference [here](https://doc.crds.dev/github.com/allenkallz/provider-snowflake).
 
 ## Developing
 
@@ -54,7 +51,3 @@ Build binary:
 make build
 ```
 
-## Report a Bug
-
-For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/upbound/upjet-provider-template/issues).
