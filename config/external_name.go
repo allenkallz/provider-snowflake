@@ -10,12 +10,14 @@ import "github.com/crossplane/upjet/pkg/config"
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
 	// Import requires using a randomly generated ID from provider: nl-2e21sda
+	// Database
 	"snowflake_database":      config.IdentifierFromProvider,
 	"snowflake_file_format":   config.IdentifierFromProvider,
 	"snowflake_database_role": config.IdentifierFromProvider,
 	"snowflake_stage":         config.IdentifierFromProvider,
 	"snowflake_pipe":          config.IdentifierFromProvider,
 
+	// Account
 	"snowflake_account":      config.IdentifierFromProvider,
 	"snowflake_account_role": config.IdentifierFromProvider,
 }
