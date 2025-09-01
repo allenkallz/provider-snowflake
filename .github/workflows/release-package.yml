@@ -274,7 +274,7 @@ jobs:
 
       - name: Push xpkg to GitHub Packages
         run: |
-          echo "$PWD""
+          echo "$PWD"
           archs=(linux_amd64 linux_arm64)
           for arch in "${archs[@]}"; do
               architecture="${arch##*_}"
