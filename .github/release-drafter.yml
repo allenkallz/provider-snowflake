@@ -1,0 +1,71 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+
+categories:
+  - title: "🚀 Features"
+    labels:
+      - "feature"
+
+  - title: "🐛 Bugs & Fixes"
+    labels:
+      - "fix"
+      - "bug"
+
+  - title: "🧰 Maintenance & Chores"
+    labels:
+      - "chore"
+
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&`'
+
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "minor"
+  patch:
+    labels:
+      - "patch"
+  default: patch
+
+autolabeler:
+  - label: "feature"
+    branch:
+      - "/feature.+/i"
+      - "/feat.+/i"
+    title:
+      - "/feature.+/i"
+      - "/feat.+/i"
+
+  - label: "fix"
+    branch:
+      - "/fix.+/i"
+    title:
+      - "/fix.+/i"
+
+  - label: "bug"
+    branch:
+      - "/bugfix.+/i"
+      - "/bug.+/i"
+    title:
+      - "/bugfix.+/i"
+      - "/bug.+/i"
+
+  - label: "chore"
+    branch:
+      - "/chore.+/i"
+      - "/refactor.+/i"
+      - "/ci.+/i"
+      - "/test.+/i"
+    title:
+      - "/chore.+/i"
+      - "/refactor.+/i"
+      - "/ci.+/i"
+      - "/test.+/i"
+
+template: |
+  ## Changes
+
+  $CHANGES
